@@ -1,0 +1,65 @@
+﻿@model  Job_Offers_Website.Models.Job
+
+@{
+    ViewBag.Title = "أنشاء وظيفة";
+    Layout = "~/Views/Shared/_mainlayout.cshtml";
+}
+
+<h2> أنشاء وظيفة</h2>
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+@using (Html.BeginForm("Create","Jobs",FormMethod.Post , new {enctype = "multipart/form-data" }) )
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" style="padding-top: 63px;">
+        <h4>انشاء وظيفة الان</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Jobtitle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Jobtitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Jobtitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobContent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.JobContent, new { htmlAttributes = new { @class = "form-control" ,@id="JobContent"} })
+                @Html.ValidationMessageFor(model => model.JobContent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="upload" />
+                @Html.ValidationMessageFor(model => model.JobImage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryId,"نوع الوظيفة", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="أنشاء" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("العودة للخلف", "Index", null, new { @class="btn btn-default" })
+</div>
+
+<script>
+
+    CKEDITOR.replace("JobContent");
+</script>

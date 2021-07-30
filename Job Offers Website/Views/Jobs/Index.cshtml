@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Job_Offers_Website.Models.Job>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainlayout.cshtml";
+}
+
+<h2>قائمة الوظائف</h2>
+
+<p class="indexjob">
+    @Html.ActionLink("اضافة وظيفة جديدة", "Create")
+</p>
+<table class="table table-stripped table-bordered table-hover  ">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.category.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Jobtitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobImage)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.category.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Jobtitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobContent)
+        </td>
+        <td>
+             <img src="~/Uploads/@Html.DisplayFor(modelItem => item.JobImage)" class="thumbnail" style="width:48px ; height:48px"/>
+        </td>
+        <td>
+            @Html.ActionLink("تعديل", "Edit", new { id=item.Id } ,new { @class="btn btn-warning"} ) |
+            @Html.ActionLink("التفاصيل", "Details", new { id=item.Id },new {@class="btn btn-info" }) |
+            @Html.ActionLink("حذف", "Delete" , new { id=item.Id },new { @class="btn btn-danger"})
+        </td>
+    </tr>
+}
+
+</table>

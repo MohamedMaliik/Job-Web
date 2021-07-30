@@ -1,0 +1,145 @@
+﻿@model Job_Offers_Website.Models.Job
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_mainlayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit","Jobs",FormMethod.Post , new {enctype="multipart/form-data" }  ))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="alert alert-danger" id="error-div" style="display:none">
+        <span id="view-err">
+
+
+        </span>
+
+    </div>
+
+
+    <div class="form-horizontal" style="padding:10px">
+        <h4>Job</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.JobImage)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Jobtitle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Jobtitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Jobtitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobContent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.JobContent, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JobContent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!--
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.JobImage, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.JobImage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+-->
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.JobImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               <input type="file" name="upload" id="myimage" />
+                @Html.ValidationMessageFor(model => model.JobImage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="حفظ" class="btn btn-success"  id="save"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("العودة للوظائف", "Index",null,new { @class="btn btn-default"})
+</div>
+
+
+
+     //iCheck if the input Empty
+            //if( $("#JobImage").val()=="")
+            //{
+            //    $("#erorr-div").fadeIn();
+
+            //    $("#view-ero").append("الرجاء ادراج صورة الوظيفة ")
+            //    return false;
+            //}
+ 
+@section scripts {
+    <script>
+    $(function()
+        {
+        $("#save").click(function () {
+         
+        
+
+             
+            //check if the image Extension is valid
+            if ($("#myimage").val() != "") {
+
+
+                var filename = document.getElementById("myimage").value;
+                var extensionImg = filename.substr(filename.lastIndexOf('.') + 1);
+                var validExtension = ['jpg', 'png', 'gif', 'bmp'];
+
+                
+                if ($.inArray(extensionImg , validExtension) == -1)
+                {
+
+                    $("#error-div").fadeIn();
+
+                    $("#view-err").append("امتداد الصورة غير صحيح");
+                    return false;
+
+                }
+
+                
+               
+                //Check if the image  Size  is valid  (2m)
+                var myfilesize = document.getElementById("myimage").files[0].size / 1024 / 1024;
+
+              if (myfilesize > 2)
+                {
+                  $("#error-div").fadeIn();
+
+                    $("#view-err").append("يجب اختيار صورة لاتزيد عن 2 ميغابايت");
+
+                    return false ;
+                }
+               
+
+            }
+
+        });
+        });
+
+</script>
+    
+    }     
